@@ -22,7 +22,7 @@ function buscarBoleto(id) {
     })
 }
 
-function buscarBoletosdaPessoa(id) {
+function buscarBoletosDaPessoa(id) {
     const listaBoletosPessoa = []
     listaBoletos.forEach(e => {
         if (e.id_pessoa == id) {
@@ -32,7 +32,7 @@ function buscarBoletosdaPessoa(id) {
     return listaBoletosPessoa
 }
 
-function buscarBoletosdoUsuario(id) {
+function buscarBoletosDoUsuario(id) {
     const listaBoletosUsuario = []
     listaBoletos.forEach(e => {
         if (e.id_usuario == id) {
@@ -65,8 +65,6 @@ router.get('/pessoa/:id', (req, res) => {
 
 router.post('', (req, res) => {
     const boleto = req.body
-    console.log("USUARIOOOOO", usuarios.buscarUsuario(boleto.id_usuario))
-    console.log("PESSOAAA", pessoas.buscarPessoa(boleto.id_pessoa))
     const pessoa = pessoas.buscarPessoa(boleto.id_pessoa)
     const usuario = usuarios.buscarUsuario(boleto.id_usuario)
     if (pessoa != null && usuario != null) {
@@ -96,8 +94,8 @@ module.exports = {
     router,
     buscarBoletos,
     buscarBoleto,
-    buscarBoletosdaPessoa,
-    buscarBoletosdoUsuario,
+    buscarBoletosDaPessoa,
+    buscarBoletosDoUsuario,
     inserirBoleto,
     alterarBoleto,
 }
