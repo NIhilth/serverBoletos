@@ -65,7 +65,7 @@ router.put('/:id', (req, res) => {
 
 router.delete('/:id', (req, res) => {
     const id = req.params.id
-    const listaBoletos = boletos.buscarBoletosdaPessoa(id)
+    const listaBoletos = boletos.buscarBoletosdoUsuario(id)
     if (listaBoletos == "") {
         deletarUsuario(id)
         res.json(listaUsuarios)

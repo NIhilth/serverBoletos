@@ -32,6 +32,16 @@ function buscarBoletosdaPessoa(id) {
     return listaBoletosPessoa
 }
 
+function buscarBoletosdoUsuario(id) {
+    const listaBoletosUsuario = []
+    listaBoletos.forEach(e => {
+        if (e.id_usuario == id) {
+            listaBoletosUsuario.push(e)
+        }
+    })
+    return listaBoletosUsuario
+}
+
 function inserirBoleto(boleto) {
     listaBoletos.push(boleto)
 }
@@ -87,6 +97,7 @@ module.exports = {
     buscarBoletos,
     buscarBoleto,
     buscarBoletosdaPessoa,
+    buscarBoletosdoUsuario,
     inserirBoleto,
     alterarBoleto,
 }
