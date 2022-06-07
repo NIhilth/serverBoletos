@@ -21,6 +21,23 @@ function buscarPessoa(id) {
     })
 }
 
+function inserirPessoa(pessoa) {
+    const id = listaPessoas.length + 1
+    pessoa.id = id
+    listaPessoas.push(pessoa)
+}
+
+function alterarPessoa(id, pessoa) {
+    const index = listaPessoas.findIndex(e => e.id == id)
+    pessoa.id = id
+    listaPessoas[index] = pessoa
+}
+
+function deletarPessoa(id) {
+    const index = listaPessoas.findIndex(e => e.id == id)
+    listaPessoas.splice(index, 1)
+}
+
 router.get('/', (req, res) => {
     res.send(buscarPessoas())
 })
@@ -30,11 +47,9 @@ router.get('/:id', (req, res) => {
 })
 
 router.post('/', (req, res) => {
-    if (req.body.nome != null && req.body.cpf != null) {
-        const pessoa = req.body
-        const id = listaPessoas.length + 1
-        pessoa.id = id
-        listaPessoas.push(pessoa)
+    const pessoa = req.body
+    if (pessoa.nome != null && pessoa.cpf != null) {
+        inserirPessoa(pessoa)
         res.json(pessoa)
     } else {
         res.status(400).send("Não foi informado o body apropriadamente")
@@ -44,18 +59,15 @@ router.post('/', (req, res) => {
 router.put('/:id', (req, res) => {
     const pessoa = req.body
     const id = req.params.id
-    const index = listaPessoas.findIndex(e => e.id == id)
-    pessoa.id = id
-    listaPessoas[index] = pessoa
+    alterarPessoa(id, pessoa)
     res.json(pessoa)
 })
 
-router.delete('/:id', (req,res) => {
+router.delete('/:id', (req, res) => {
     const id = req.params.id
     const listaBoletos = boletos.buscarBoletosdaPessoa(id)
-    if(listaBoletos == ""){
-        const index = listaPessoas.findIndex(e => e.id == id)
-        listaPessoas.splice(index, 1)
+    if (listaBoletos == "") {
+        deletarPessoa(id)
         res.json(listaPessoas)
     } else {
         res.status(400).send("Essa pessoa tem um boleto pendente!")
@@ -65,5 +77,8 @@ router.delete('/:id', (req,res) => {
 module.exports = {
     router,
     buscarPessoas,
-    buscarPessoa
+    buscarPessoa,
+    inserirPessoa,
+    alterarPessoa,
+    deletarPessoa,
 }

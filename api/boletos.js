@@ -1,5 +1,6 @@
 const express = require("express")
-//const pessoas = require("./pessoas")
+const pessoas = require("./pessoas")
+const usuarios = require("./usuarios")
 const router = express.Router()
 
 
@@ -24,11 +25,19 @@ function buscarBoleto(id) {
 function buscarBoletosdaPessoa(id) {
     const listaBoletosPessoa = []
     listaBoletos.forEach(e => {
-        if(e.id_pessoa == id){
+        if (e.id_pessoa == id) {
             listaBoletosPessoa.push(e)
         }
     })
     return listaBoletosPessoa
+}
+
+function inserirBoleto(boleto) {
+    listaBoletos.push(boleto)
+}
+
+function alterarBoleto(index, boleto) {
+    listaBoletos[index] = boleto
 }
 
 router.get('/', (req, res) => {
@@ -44,14 +53,32 @@ router.get('/pessoa/:id', (req, res) => {
     res.send(listaBoletosPessoa)
 })
 
-//fazer post
+router.post('', (req, res) => {
+    const boleto = req.body
+    console.log("USUARIOOOOO", usuarios.buscarUsuario(boleto.id_usuario))
+    console.log("PESSOAAA", pessoas.buscarPessoa(boleto.id_pessoa))
+    const pessoa = pessoas.buscarPessoa(boleto.id_pessoa)
+    const usuario = usuarios.buscarUsuario(boleto.id_usuario)
+    if (pessoa != null && usuario != null) {
+        if (boleto.valor > 0) {
+            const id = listaBoletos.length + 1
+            boleto.id = id
+            inserirBoleto(boleto)
+            res.json(boleto)
+        } else {
+            res.status(400).send("Valor menor ou igual a 0!")
+        }
+    } else {
+        res.status(400).send("A pessoa ou o usuário informado não existe!")
+    }
+})
 
 router.put('/:id', (req, res) => {
     const boleto = req.body
     const id = req.params.id
     const index = listaBoletos.findIndex(e => e.id == id)
     boleto.id = id
-    listaBoletos[index] = boleto
+    alterarBoleto(index, boleto)
     res.json(boleto)
 })
 
@@ -59,5 +86,7 @@ module.exports = {
     router,
     buscarBoletos,
     buscarBoleto,
-    buscarBoletosdaPessoa
+    buscarBoletosdaPessoa,
+    inserirBoleto,
+    alterarBoleto,
 }
