@@ -15,8 +15,8 @@
 
 
 const express = require("express")
-const pessoas = require("./pessoas")
-const usuarios = require("./usuarios")
+const { pessoas } = require("./pessoas")
+const { usuarios } = require("./usuarios")
 const router = express.Router()
 
 
@@ -75,11 +75,11 @@ router.get('/:id', (req, res) => {
 })
 
 router.get('/pessoa/:id', (req, res) => {
-    const listaBoletosPessoa = buscarBoletosdaPessoa(req.params.id)
+    const listaBoletosPessoa = buscarBoletosDaPessoa(req.params.id)
     res.send(listaBoletosPessoa)
 })
 
-router.post('', (req, res) => {
+router.post('/', (req, res) => {
     const boleto = req.body
     const pessoa = pessoas.buscarPessoa(boleto.id_pessoa)
     const usuario = usuarios.buscarUsuario(boleto.id_usuario)

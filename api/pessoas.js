@@ -1,5 +1,5 @@
 const express = require("express")
-const boletos = require("./boletos")
+const { boletos } = require("./boletos")
 const router = express.Router()
 
 const listaPessoas = [
@@ -48,7 +48,7 @@ router.get('/:id', (req, res) => {
 
 router.post('/', (req, res) => {
     const pessoa = req.body
-    if (pessoa.nome != null && pessoa.cpf != null) {
+    if (pessoa.nome != null && pessoa.cpf != null && pessoa.nome != "" && pessoa.cpf != "" ) {
         inserirPessoa(pessoa)
         res.json(pessoa)
     } else {

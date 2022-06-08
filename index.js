@@ -11,7 +11,7 @@ app.use("/api/usuarios", usuarios.router)
 app.use("/api/boletos", boletos.router)
 
 app.listen(port, () => {
-    console.log("Example, app listening at http://localhost: " + port)
+    console.log("Example, app listening at http://localhost:" + port)
 })
 
 app.get('/', (req, res) => {
